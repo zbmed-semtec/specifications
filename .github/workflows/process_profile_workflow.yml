@@ -1,0 +1,60 @@
+# This workflow will generate/update a/the profile HTML page each time the 
+# DDE genrates and update a JSON-LD in the _data/specifications folder (repo) 
+# test push
+name: process-profile
+  
+on:
+  push:
+    branches:
+      - master
+#  pull_request:
+#    types: [opened, reopened]
+
+env:
+  # current job token
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# inputs:
+#   branch-name: 
+#     description: $`date +%Y_%m_%d-%H_%M_%S`
+#     required: true
+
+jobs:
+  process-profile:
+    runs-on: ubuntu-latest
+
+    steps: 
+
+      - name: Checkout Spec Repo and Retreive the Preceding Commit
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@v21
+
+      - name: List Changed Files
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$file was changed"
+          done
+
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8 #install the python needed
+
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v3
+        with:
+          path: "./.github/workflows/requirements.txt"
+
+      - name: Exectute Enrichment by Profile Ontology script
+        run: |
+          python ./.github/workflows/process_profile_script.py ${{github.action}}
+      
+
+      - name: End Workflow
+        run: |
+          echo "Something might have worked !"
