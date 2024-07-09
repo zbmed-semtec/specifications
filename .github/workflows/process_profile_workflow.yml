@@ -52,10 +52,9 @@ jobs:
 
       - name: Exectute Enrichment by Profile Ontology script
         run: |
-          python ./.github/workflows/process_profile_script.py ${{github.action}} >> "$GITHUB_OUTPUT"
+          python ./.github/workflows/process_profile_script.py ${{github.action}} > "$GITHUB_OUTPUT" 2>&1
           echo -e "Testing output... $GITHUB_OUTPUT"
       
-
       - name: End Workflow
         run: |
           echo "Something might have worked !"
