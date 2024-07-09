@@ -148,12 +148,6 @@ def processProfiles ():
 
 args = sys.argv
 
-for arg in args:
-    print("Checking current argument: ", arg)
-
-website_repo = args[-1]
-args.remove(website_repo)
-
 # For each new uploaded JSON-LD file
 for arg in args:
     print("Checking current script argument: ", arg)
