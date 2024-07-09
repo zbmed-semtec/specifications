@@ -143,6 +143,8 @@ def processProfiles ():
         print(" - " + l["profile"] + " " + l["version"])
 
 
+print("### HELLO !!!!11123")
+
 # ## Main Script
 
 args = sys.argv
