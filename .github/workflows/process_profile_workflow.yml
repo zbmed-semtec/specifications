@@ -54,6 +54,7 @@ jobs:
         run: |
           python ./.github/workflows/process_profile_script.py ${{github.action}} > "$GITHUB_OUTPUT" 2>&1
           echo -e "Testing output... $GITHUB_OUTPUT"
+          cat $GITHUB_OUTPUT
       
       - name: End Workflow
         run: |
