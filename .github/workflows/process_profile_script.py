@@ -82,7 +82,7 @@ def processProfiles (filename, profilename):
                publisher=webpage_url,
                is_profile_of=profilename.capitalize(),
                webpage_url=webpage_url,
-               jsonld_urls=download_url,
+               jsonld_urls=toProc,
                outputfilename=profilename,
                filetype="ttl")
                                       
