@@ -10,10 +10,10 @@ role = Namespace("http://www.w3.org/ns/dx/prof/role/")
 schema = Namespace("http://schema.org/")
 
 # Function to generate RDF for a specified profile using triples according to the Profile Ontology.
-def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile_of, webpage_url, jsonld_urls, outputfilename, filetype):
+def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
     # Loading JSON-LD from repository as graph using rdflib
     g = Graph()
-    g.parse(jsonld_urls, format="application/ld+json")
+    g.parse(file=f, format="application/ld+json")
 
     # Creating profile URI
     profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
@@ -54,37 +54,33 @@ def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile
 # is taken to generate enriched turtle files.
 def processProfiles (filename, profilename):
     # Retrieving all released json files from BioSchemas github repository
-
-    with open(filename) as f:
-        print("Loading file as json ", filename)
-        toProc = json.load(f)
-        profiles = []
-        profilenames = []
-        weburls = []
-        downloadurls = []
-        profilelatestversions = []
+    profiles = []
+    profilenames = []
+    weburls = []
+    downloadurls = []
+    profilelatestversions = []
         
-        # browsable url of the repository
-        weburl = "https://github.com/BioSchemas/specifications/blob/master/"
+    # browsable url of the repository
+    weburl = "https://github.com/BioSchemas/specifications/blob/master/"
 
-        # url to download the raw json file
-        downloadurl = "https://raw.githubusercontent.com/BioSchemas/specifications/master/"
+    # url to download the raw json file
+    downloadurl = "https://raw.githubusercontent.com/BioSchemas/specifications/master/"
         
-        print("Processing " + profilename)
-        webpage_url = weburl+profilename
-        download_url = downloadurl+profilename
+    print("Processing " + profilename)
+    webpage_url = weburl+profilename
+    download_url = downloadurl+profilename
             
-        # generating additional profile triples to store with retrieved JSON-LD
-        generate_rdf_for_profile(
-               profile_name=profilename,
-               label=f"{profilename.capitalize()} Profile",
-               comment="",
-               publisher=webpage_url,
-               is_profile_of=profilename.capitalize(),
-               webpage_url=webpage_url,
-               jsonld_urls=toProc,
-               outputfilename=profilename,
-               filetype="ttl")
+    # generating additional profile triples to store with retrieved JSON-LD
+    generate_rdf_for_profile(
+            profile_name=profilename,
+            label=f"{profilename.capitalize()} Profile",
+            comment="",
+            publisher=webpage_url,
+            is_profile_of=profilename.capitalize(),
+            webpage_url=webpage_url,
+            jsonld_urls=filename,
+            outputfilename=profilename,
+            filetype="ttl")
                                       
 
 # ## Main Script
