@@ -156,5 +156,5 @@ for arg in args:
             arglist = arg.split("/")
 
             profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
-            print(profile_name)
+            print("### Custom output: ", profile_name)
             processProfiles(profile_name)
