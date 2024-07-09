@@ -1,4 +1,4 @@
-import requests
+import json
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from rdflib.namespace import RDF, RDFS, DCTERMS
 import sys
@@ -52,97 +52,40 @@ def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile
 # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
 # which have a release and version tag, are read. Then, only the latest version of the available profiles
 # is taken to generate enriched turtle files.
-def processProfiles ():
+def processProfiles (filename, profilename):
     # Retrieving all released json files from BioSchemas github repository
 
-    # url with repository information
-    apiurl = "https://api.github.com/repos/BioSchemas/specifications/git/trees/master"
-
-    # browsable url of the repository
-    weburl = "https://github.com/BioSchemas/specifications/blob/master/"
-
-    # url to download the raw json file
-    downloadurl = "https://raw.githubusercontent.com/BioSchemas/specifications/master/"
-
-    # retrieving all files in directory in JSON format
-    res = requests.get(url=(apiurl+"?recursive=1"))
-    toProc = json.loads(res.text)
-    profiles = []
-    profilenames = []
-    weburls = []
-    downloadurls = []
-    profilelatestversions = []
-
-    print ("Scanning directory for latest versions...")
-    for i in toProc:
-        if i=="tree":
-            for j in toProc[i]:
-                for k in j:
-                    if k=="path":
-                        # check whether it is actually a released JSON file
-                        if "RELEASE.json" in j[k]:
-                            #print(j[k])
-                            profile_name = j[k][0:j[k].index("/")]
-                            version = j[k][(j[k].index("_")+1):j[k].index("-")]
-                            latest = dict(profile = profile_name, version = version)
-                            isVersioned = 0
-                            for l in profilelatestversions:
-                                print(l["profile"])
-                                if l["profile"]==profile_name:
-                                    isVersioned=1
-                                    print("Updating profile " + l["profile"] + " with version "+l["version"])
-                                    if (l["version"] < version):
-                                        l["version"] = version
-                            
-                            if (isVersioned==0):
-                                profilelatestversions.append(latest)
-
-    print("Processing latest versions...")
-    for i in toProc:
-        if i=="tree":
-            for j in toProc[i]:
-                for k in j:
-                    if k=="path":
-                        # check whether it is actually a released JSON file
-                        if "RELEASE.json" in j[k]:
-                            # get the profile name from the file name
-                            print(j[k])
-
-                            profile_name = j[k][0:j[k].index("/")]
-                            version = j[k][(j[k].index("_")+1):j[k].index("-")]
-                            for l in profilelatestversions:
-                                # print(l["profile"])
-                                if l["profile"]==profile_name:
-                                    if l["version"] == version:
-                                        print("Processing " + profile_name + " with version " + version)
-                                        webpage_url = weburl+j[k]
-                                        download_url = downloadurl+j[k]
+    with open(filename) as f:
+        print("Loading file as json ", filename)
+        toProc = json.load(f)
+        profiles = []
+        profilenames = []
+        weburls = []
+        downloadurls = []
+        profilelatestversions = []
         
-                                        profilenames.append(profile_name)
-                                        profiles.append(j[k])
-                                        weburls.append(weburl+j[k])
-                                        downloadurls.append(downloadurl+j[k])
+        # browsable url of the repository
+        weburl = "https://github.com/BioSchemas/specifications/blob/master/"
 
-                                        # generating additional profile triples to store with retrieved JSON-LD
-                                        generate_rdf_for_profile(
-                                            profile_name=profile_name,
-                                            label=f"{profile_name.capitalize()} Profile",
-                                            comment="",
-                                            publisher=webpage_url,
-                                            is_profile_of=profile_name.capitalize(),
-                                            webpage_url=webpage_url,
-                                            jsonld_urls=download_url,
-                                            outputfilename="bioschemas-profiles-metadata/data/output/"+profile_name,
-                                            filetype="ttl"
-                                        )
-                                    else:
-                                        print("Dropping version " + version + " for profile " + profile_name)
-
-    print("Processed profiles with their versions are")
-    for l in profilelatestversions:
-        print(" - " + l["profile"] + " " + l["version"])
-
-
+        # url to download the raw json file
+        downloadurl = "https://raw.githubusercontent.com/BioSchemas/specifications/master/"
+        
+        print("Processing " + profilename)
+        webpage_url = weburl+profilename
+        download_url = downloadurl+profilename
+            
+        # generating additional profile triples to store with retrieved JSON-LD
+        generate_rdf_for_profile(
+               profile_name=profilename,
+               label=f"{profilename.capitalize()} Profile",
+               comment="",
+               publisher=webpage_url,
+               is_profile_of=profilename.capitalize(),
+               webpage_url=webpage_url,
+               jsonld_urls=download_url,
+               outputfilename=profilename,
+               filetype="ttl")
+                                      
 
 # ## Main Script
 
@@ -159,4 +102,4 @@ for arg in args:
 
             profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
             print("Running processProfiles() for : ", profile_name)
-            processProfiles(profile_name)
+            processProfiles(arg, profile_name)
