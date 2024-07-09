@@ -143,7 +143,6 @@ def processProfiles ():
         print(" - " + l["profile"] + " " + l["version"])
 
 
-print("### HELLO !!!!11123")
 
 # ## Main Script
 
@@ -153,10 +152,13 @@ args.remove(website_repo)
 
 # For each new uploaded JSON-LD file
 for arg in args:
+    print("Checking current script argument: ", arg)
     if "jsonld" in arg.split("/"):
+        print("Found JSON-LD file.")
         if "json" in arg.split("."):
+            print("Found json file.")
             arglist = arg.split("/")
 
             profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
-            print("### Custom output: ", profile_name)
+            print("Running processProfiles() for : ", profile_name)
             processProfiles(profile_name)
