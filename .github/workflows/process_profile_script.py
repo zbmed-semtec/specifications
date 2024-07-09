@@ -146,10 +146,11 @@ def processProfiles ():
 
 # ## Main Script
 
+args = sys.argv
+
 for arg in args:
     print("Checking current argument: ", arg)
 
-args = sys.argv
 website_repo = args[-1]
 args.remove(website_repo)
 
