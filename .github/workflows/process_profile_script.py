@@ -16,7 +16,7 @@ class ProcPofiles:
 
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
-        g.parse(file="https://github.com/zbmed-semtec/specifications/blob/master/"+f, format="application/ld+json")
+        g.parse(file=f, format="application/ld+json")
 
         # Creating profile URI
         profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
