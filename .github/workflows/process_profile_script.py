@@ -1,4 +1,3 @@
-import json
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from rdflib.namespace import RDF, RDFS, DCTERMS
 import sys
