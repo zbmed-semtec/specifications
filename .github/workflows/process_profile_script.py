@@ -45,8 +45,9 @@ def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile
     g.add((json_ld_descriptor, prof.hasArtifact, URIRef("https://raw.githubusercontent.com/BioSchemas/bioschemas-dde/main/bioschemas.json")))
     
     # save the graph with additional profile triples
-    g.serialize(destination=outputfilename+"."+filetype, format=filetype)
-
+    outfile = outputfilename+"."+filetype
+    g.serialize(destination=outfile, format=filetype)
+    print("Writing result to", outfile)
 
 # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
 # which have a release and version tag, are read. Then, only the latest version of the available profiles
