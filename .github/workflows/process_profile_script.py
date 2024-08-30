@@ -71,7 +71,7 @@ class ProcPofiles:
                 publisher=webpage_url,
                 is_profile_of=profilename.capitalize(),
                 webpage_url=webpage_url,
-                jsonld_urls=filename,
+                f=filename,
                 outputfilename=profilename,
                 filetype="ttl")
                                         
