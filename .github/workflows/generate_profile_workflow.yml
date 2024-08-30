@@ -51,7 +51,7 @@ jobs:
 
       - name: Checkout the DDE repo
         env:
-          GITHUB_TOKEN: ${{ secrets.Sahar_Workflows_Token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           git clone https://user:$GITHUB_TOKEN@github.com/BioSchemas/bioschemas-dde
           cd bioschemas-dde 
@@ -60,7 +60,7 @@ jobs:
 
       - name: Checkout the Website repo
         env:
-          GITHUB_TOKEN: ${{ secrets.Sahar_Workflows_Token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: | 
           git clone https://user:$GITHUB_TOKEN@github.com/BioSchemas/bioschemas.github.io
           cd bioschemas.github.io
