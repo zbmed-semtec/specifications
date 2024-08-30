@@ -51,23 +51,12 @@ def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile
 # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
 # which have a release and version tag, are read. Then, only the latest version of the available profiles
 # is taken to generate enriched turtle files.
-def processProfiles (filename, profilename):
-    # Retrieving all released json files from BioSchemas github repository
-    profiles = []
-    profilenames = []
-    weburls = []
-    downloadurls = []
-    profilelatestversions = []
-        
+def processProfiles (filename, profilename):        
     # browsable url of the repository
     weburl = "https://github.com/BioSchemas/specifications/blob/master/"
-
-    # url to download the raw json file
-    downloadurl = "https://raw.githubusercontent.com/BioSchemas/specifications/master/"
         
     print("Processing " + profilename)
     webpage_url = weburl+profilename
-    download_url = downloadurl+profilename
             
     # generating additional profile triples to store with retrieved JSON-LD
     generate_rdf_for_profile(
