@@ -7,7 +7,7 @@ class ProcPofiles:
         self.name = name
 
     # Function to generate RDF for a specified profile using triples according to the Profile Ontology.
-    def generate_rdf_for_profile(profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
+    def generate_rdf_for_profile(self, profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
         # Defining namespaces
         bioschemas = Namespace("https://bioschemas.org/profiles/")
         prof = Namespace("http://www.w3.org/ns/dx/prof/")
@@ -56,7 +56,7 @@ class ProcPofiles:
     # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
     # which have a release and version tag, are read. Then, only the latest version of the available profiles
     # is taken to generate enriched turtle files.
-    def processProfiles (filename, profilename):        
+    def processProfiles (self, filename, profilename):        
         # browsable url of the repository
         weburl = "https://github.com/BioSchemas/specifications/blob/master/"
             
@@ -64,7 +64,7 @@ class ProcPofiles:
         webpage_url = weburl+profilename
                 
         # generating additional profile triples to store with retrieved JSON-LD
-        generate_rdf_for_profile(
+        self.generate_rdf_for_profile(
                 profile_name=profilename,
                 label=f"{profilename.capitalize()} Profile",
                 comment="",
