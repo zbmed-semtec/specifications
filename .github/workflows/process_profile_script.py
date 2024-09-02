@@ -92,6 +92,6 @@ for arg in args:
 
             profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
             
-            abspath = "https://github.com/zbmed-semtec/specifications/tree/master/" + arg
+            abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
             print("Running processProfiles() for : ", profile_name, "with file", abspath)
             proc.processProfiles(abspath, profile_name)
