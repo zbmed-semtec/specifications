@@ -91,5 +91,5 @@ for arg in args:
             arglist = arg.split("/")
 
             profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
-            print("Running processProfiles() for : ", profile_name)
+            print("Running processProfiles() for : ", profile_name, "with filename", arg)
             proc.processProfiles(arg, profile_name)
