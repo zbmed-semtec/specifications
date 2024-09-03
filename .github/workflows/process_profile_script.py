@@ -18,7 +18,7 @@ class ProcPofiles:
         print("Parsing", f, "as RDF graph with version", rdflib.__version__)
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
-        g.parse(file=f, format="application/ld+json")
+        g.parse(file=f, format="json-ld")
         print("Parsing completed!")
 
         # Creating profile URI
