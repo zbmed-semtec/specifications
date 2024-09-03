@@ -14,9 +14,11 @@ class ProcPofiles:
         role = Namespace("http://www.w3.org/ns/dx/prof/role/")
         schema = Namespace("http://schema.org/")
 
+        print("Parsing", f, "as RDF graph")
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
         g.parse(file=f, format="application/ld+json")
+        print("Parsing completed!")
 
         # Creating profile URI
         profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
