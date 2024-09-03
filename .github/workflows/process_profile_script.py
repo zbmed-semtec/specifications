@@ -48,7 +48,7 @@ class ProcPofiles:
         g.add((json_ld_descriptor, DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/application/ld+json")))
         g.add((json_ld_descriptor, prof.role, role.schema))
         g.add((json_ld_descriptor, prof.role, role.specification))
-        g.add((json_ld_descriptor, prof.hasArtifact, URIRef(jsonld_urls)))
+        g.add((json_ld_descriptor, prof.hasArtifact, URIRef(f)))
         g.add((json_ld_descriptor, prof.hasArtifact, URIRef("https://raw.githubusercontent.com/BioSchemas/bioschemas-dde/main/bioschemas.json")))
         
         # save the graph with additional profile triples
