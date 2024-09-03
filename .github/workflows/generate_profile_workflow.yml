@@ -11,7 +11,7 @@ on:
 #    types: [opened, reopened]
 
 env:
-  GH_TOKEN: ${{ secrets.Sahar_Workflows_Token }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 # inputs:
 #   branch-name: 
