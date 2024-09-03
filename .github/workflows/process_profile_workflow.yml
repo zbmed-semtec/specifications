@@ -52,7 +52,7 @@ jobs:
 
       - name: Exectute Enrichment by Profile Ontology script
         run: |
-          python ./.github/workflows/process_profile_script.py ${{ github.workspace }}/../${{steps.changed-files.outputs.all_changed_files}}
+          python ./.github/workflows/process_profile_script.py ${{steps.changed-files.outputs.all_changed_files}}
       
       - name: End Workflow
         run: |
