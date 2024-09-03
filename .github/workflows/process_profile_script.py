@@ -86,12 +86,10 @@ for arg in args:
     print("Checking current script argument: ", arg)
     if "jsonld" in arg.split("/"):
         print("Found JSON-LD file.")
-        if "json" in arg.split("."):
-            print("Found json file.")
-            arglist = arg.split("/")
+        arglist = arg.split("/")
 
-            profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
+        profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
             
-            abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
-            print("Running processProfiles() for : ", profile_name, "with file", abspath)
-            proc.processProfiles(abspath, profile_name)
+        abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
+        print("Running processProfiles() for : ", profile_name, "with file", abspath)
+        proc.processProfiles(abspath, profile_name)
