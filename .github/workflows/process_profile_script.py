@@ -1,6 +1,7 @@
 from rdflib import Graph, Namespace, Literal, URIRef, BNode
 from rdflib.namespace import RDF, RDFS, DCTERMS
 import sys
+import rdflib
 
 class ProcPofiles:
     def __init__(self, name):
@@ -14,7 +15,7 @@ class ProcPofiles:
         role = Namespace("http://www.w3.org/ns/dx/prof/role/")
         schema = Namespace("http://schema.org/")
 
-        print("Parsing", f, "as RDF graph")
+        print("Parsing", f, "as RDF graph with version", rdflib.__version__)
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
         g.parse(file=f, format="application/ld+json")
