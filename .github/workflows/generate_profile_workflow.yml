@@ -11,7 +11,7 @@ on:
 #    types: [opened, reopened]
 
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.bernd_mueller_workflow_token }}
 
 # inputs:
 #   branch-name: 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Checkout the DDE repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.bernd_mueller_workflow_token }}
         run: | 
           git clone https://user:$GITHUB_TOKEN@github.com/zbmed-semtec/bioschemas-dde
           cd bioschemas-dde 
@@ -60,7 +60,7 @@ jobs:
 
       - name: Checkout the Website repo
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.bernd_mueller_workflow_token }}
         run: | 
           git clone https://user:$GITHUB_TOKEN@github.com/zbmed-semtec/bioschemas.github.io
           cd bioschemas.github.io
@@ -93,7 +93,7 @@ jobs:
           email: bernd.mueller@zbmed.de
           name: bernd-mueller
           actor: bernd-mueller
-          token: '${{secrets.GITHUB_TOKEN}}'
+          token: '${{secrets.bernd_mueller_workflow_token}}'
 
       - name: Commit and Push the changes in the website
         run: | 
