@@ -10,7 +10,7 @@ import sys
 import os.path
 import csv
 from os import path
-import datetime
+from datetime import datetime
 
 
 def generate_transformed_profile(
@@ -331,11 +331,11 @@ def generate_spec_info(g, path_changed_file):
     spec_info["version"] = arg.split("/")[-1].split(".json")[0].split("v")[-1]
 
     spec_info["version_date"] = (
-        str(datetime.now().strftime('%Y%m%d'))
+        str(datetime.today().strftime('%Y%m%d'))
         + "T"
-        + str(datetime.datetime.now().time().hour)
-        + str(datetime.datetime.now().time().minute)
-        + str(datetime.datetime.now().time().second)
+        + str(datetime.now().time().hour)
+        + str(datetime.now().time().minute)
+        + str(datetime.now().time().second)
     )
 
     if "rdfs:subClassOf" in g.keys():
