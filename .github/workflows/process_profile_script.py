@@ -52,8 +52,9 @@ class ProcPofiles:
         g.add((json_ld_descriptor, prof.hasArtifact, URIRef("https://raw.githubusercontent.com/BioSchemas/bioschemas-dde/main/bioschemas.json")))
         
         # save the graph with additional profile triples
-        outfile = outputfilename+"."+filetype
-        g.serialize(destination=outfile, format=filetype)
+        # outfile = outputfilename+"."+filetype
+        outfile = outputfilename
+        g.serialize(destination=outfile, format="json-ld")
         print("Writing result to", outfile)
 
     # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
@@ -75,8 +76,8 @@ class ProcPofiles:
                 is_profile_of=profilename.capitalize(),
                 webpage_url=webpage_url,
                 f=filename,
-                outputfilename=profilename,
-                filetype="ttl")
+                outputfilename=filename,
+                filetype="")
                                         
 
 # ## Main Script
