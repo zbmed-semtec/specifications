@@ -597,13 +597,14 @@ for arg in args:
 
             for g in range(data_length):
             # for g in data["@graph"]:
-                if g["@type"] == "rdfs:Class":
-                    print(
-                        Fore.BLUE
-                        + Style.BRIGHT
-                        + f'Profile : {g["@id"]}'
-                        + Style.RESET_ALL
-                    )
+                if int(g)  != g:
+                    if g["@type"] == "rdfs:Class":
+                        print(
+                            Fore.BLUE
+                            + Style.BRIGHT
+                            + f'Profile : {g["@id"]}'
+                            + Style.RESET_ALL
+                        )
                     # Dictionary of all external definitions
                     dict_definitions = dict()
 
