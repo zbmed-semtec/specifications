@@ -588,7 +588,9 @@ for arg in args:
             # print(json.dumps(data['@graph'][0], indent=True))
 
             external_properties = []
-            for g in data["@graph"]:
+            data_length = len(data)
+            for g in range(data_length):
+            #for g in data["@graph"]:
                 if g["@type"] == "rdf:Property":
                     external_properties.append(g["@id"])
 
