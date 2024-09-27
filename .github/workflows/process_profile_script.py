@@ -96,4 +96,4 @@ for arg in args:
             
         # abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
         print("Running processProfiles() for : ", profile_name, "with file", arg)
-        # proc.processProfiles(arg, profile_name)
+        proc.processProfiles(arg, profile_name)
