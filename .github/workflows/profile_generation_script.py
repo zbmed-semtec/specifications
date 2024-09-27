@@ -589,14 +589,14 @@ for arg in args:
 
             external_properties = []
             data_length = len(data)
-            for g in range(data_length):
-            #for g in data["@graph"]:
+            # for g in range(data_length):
+            for g in data["@graph"]:
                 if int(g)  != g:
                     if g["@type"] == "rdf:Property":
                         external_properties.append(g["@id"])
 
-            for g in range(data_length):
-            # for g in data["@graph"]:
+            # for g in range(data_length):
+            for g in data["@graph"]:
                 if int(g)  != g:
                     if g["@type"] == "rdfs:Class":
                         print(
