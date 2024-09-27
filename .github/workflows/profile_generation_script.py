@@ -591,13 +591,13 @@ for arg in args:
             data_length = len(data)
             # for g in range(data_length):
             for g in data["@graph"]:
-                if int(g)  != g:
+                if not isinstance(g, int):
                     if g["@type"] == "rdf:Property":
                         external_properties.append(g["@id"])
 
             # for g in range(data_length):
             for g in data["@graph"]:
-                if int(g)  != g:
+                if not isinstance(g, int):
                     if g["@type"] == "rdfs:Class":
                         print(
                             Fore.BLUE
