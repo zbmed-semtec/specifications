@@ -54,33 +54,33 @@ class ProcPofiles:
         # save the graph with additional profile triples
         # outfile = outputfilename+"."+filetype
         outfile = outputfilename
-        g.serialize(destination=outfile, format="json-ld")
+        g.serialize(destination=outfile, format="json-ld", auto_compact=True)
         print("Writing result to", outfile)
         g.close()
-        postproc = """
-        { 
-        "@context": {
-            "schema": "http://schema.org/",
-            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-            "bioschemas": "https://discovery.biothings.io/view/bioschemas/"
-        },
-        "@graph": 
-        """
+        # postproc = """
+        # { 
+        # "@context": {
+        #     "schema": "http://schema.org/",
+        #     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        #     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        #     "bioschemas": "https://discovery.biothings.io/view/bioschemas/"
+        # },
+        # "@graph": 
+        # """
 
-        print("Postprocessing file to legit Bioschemas file format.")
+        # print("Postprocessing file to legit Bioschemas file format.")
 
-        enriched = ""
-        with open(outfile, 'r') as file:
-            for line in file:
-                enriched += line.strip() + "\n"
-        file.close()
+        # enriched = ""
+        # with open(outfile, 'r') as file:
+        #     for line in file:
+        #         enriched += line.strip() + "\n"
+        # file.close()
 
-        postproc = postproc + enriched + "\n}"
+        # postproc = postproc + enriched + "\n}"
 
-        with open(outfile, "w") as file:
-            file.write(postproc)
-        file.close()
+        # with open(outfile, "w") as file:
+        #     file.write(postproc)
+        # file.close()
         
 
 
