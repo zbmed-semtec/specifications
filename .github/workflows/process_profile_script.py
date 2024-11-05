@@ -53,36 +53,15 @@ class ProcPofiles:
         
         # save the graph with additional profile triples
         # outfile = outputfilename+"."+filetype
+        context = { 
+            "schema": "http://schema.org/", 
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#", 
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#", 
+            "bioschemas": "https://discovery.biothings.io/view/bioschemas/"}
         outfile = outputfilename
-        g.serialize(destination=outfile, format="json-ld", auto_compact=True)
+        g.serialize(destination=outfile, format="json-ld", context=context)
         print("Writing result to", outfile)
         g.close()
-        # postproc = """
-        # { 
-        # "@context": {
-        #     "schema": "http://schema.org/",
-        #     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-        #     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        #     "bioschemas": "https://discovery.biothings.io/view/bioschemas/"
-        # },
-        # "@graph": 
-        # """
-
-        # print("Postprocessing file to legit Bioschemas file format.")
-
-        # enriched = ""
-        # with open(outfile, 'r') as file:
-        #     for line in file:
-        #         enriched += line.strip() + "\n"
-        # file.close()
-
-        # postproc = postproc + enriched + "\n}"
-
-        # with open(outfile, "w") as file:
-        #     file.write(postproc)
-        # file.close()
-        
-
 
 
     # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
