@@ -590,6 +590,7 @@ for arg in args:
             external_properties = []
             data_length = len(data)
             # for g in range(data_length):
+            print(data, len(data))
             for g in data["@graph"]:
                 if not isinstance(g, int):
                     if g["@type"] == "rdf:Property":
