@@ -21,41 +21,69 @@ class ProcPofiles:
         g.parse(source=f, format="json-ld")
         print("Parsing completed!")
 
-        # Creating profile URI
-        profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
+        # # Creating profile URI
+        # profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
         
-        # Adding triples for profile information
-        g.add((profile_uri, RDF.type, prof.Profile))
-        g.add((profile_uri, RDFS.label, Literal(label)))
-        g.add((profile_uri, RDFS.comment, Literal(comment)))
-        g.add((profile_uri, DCTERMS.publisher, URIRef(publisher)))
-        g.add((profile_uri, prof.isProfileOf, getattr(schema, is_profile_of)))
+        # # Adding triples for profile information
+        # g.add((profile_uri, RDF.type, prof.Profile))
+        # g.add((profile_uri, RDFS.label, Literal(label)))
+        # g.add((profile_uri, RDFS.comment, Literal(comment)))
+        # g.add((profile_uri, DCTERMS.publisher, URIRef(publisher)))
+        # g.add((profile_uri, prof.isProfileOf, getattr(schema, is_profile_of)))
 
-        # Adding triples for webpage
-        if webpage_url:
-            webpage_descriptor = BNode()
-            g.add((profile_uri, prof.hasResource, webpage_descriptor))
-            g.add((webpage_descriptor, RDF.type, prof.ResourceDescriptor))
-            g.add((webpage_descriptor, DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
-            g.add((webpage_descriptor, prof.role, role.example))
-            g.add((webpage_descriptor, prof.role, role.guidance))
-            g.add((webpage_descriptor, prof.hasArtifact, URIRef(webpage_url)))
+        # # Adding triples for webpage
+        # if webpage_url:
+        #     webpage_descriptor = BNode()
+        #     g.add((profile_uri, prof.hasResource, webpage_descriptor))
+        #     g.add((webpage_descriptor, RDF.type, prof.ResourceDescriptor))
+        #     g.add((webpage_descriptor, DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/text/html")))
+        #     g.add((webpage_descriptor, prof.role, role.example))
+        #     g.add((webpage_descriptor, prof.role, role.guidance))
+        #     g.add((webpage_descriptor, prof.hasArtifact, URIRef(webpage_url)))
 
-        # Adding triples for JSON-LD
-        json_ld_descriptor = BNode()
-        g.add((profile_uri, prof.hasResource, json_ld_descriptor))
-        g.add((json_ld_descriptor, RDF.type, prof.ResourceDescriptor))
-        g.add((json_ld_descriptor, DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/application/ld+json")))
-        g.add((json_ld_descriptor, prof.role, role.schema))
-        g.add((json_ld_descriptor, prof.role, role.specification))
-        g.add((json_ld_descriptor, prof.hasArtifact, URIRef(f)))
-        g.add((json_ld_descriptor, prof.hasArtifact, URIRef("https://raw.githubusercontent.com/BioSchemas/bioschemas-dde/main/bioschemas.json")))
+        # # Adding triples for JSON-LD
+        # json_ld_descriptor = BNode()
+        # g.add((profile_uri, prof.hasResource, json_ld_descriptor))
+        # g.add((json_ld_descriptor, RDF.type, prof.ResourceDescriptor))
+        # g.add((json_ld_descriptor, DCTERMS.format, URIRef("https://www.iana.org/assignments/media-types/application/ld+json")))
+        # g.add((json_ld_descriptor, prof.role, role.schema))
+        # g.add((json_ld_descriptor, prof.role, role.specification))
+        # g.add((json_ld_descriptor, prof.hasArtifact, URIRef(f)))
+        # g.add((json_ld_descriptor, prof.hasArtifact, URIRef("https://raw.githubusercontent.com/BioSchemas/bioschemas-dde/main/bioschemas.json")))
         
         # save the graph with additional profile triples
         # outfile = outputfilename+"."+filetype
         outfile = outputfilename
         g.serialize(destination=outfile, format="json-ld")
         print("Writing result to", outfile)
+        g.close()
+        postproc = """
+        { 
+        "@context": {
+            "schema": "http://schema.org/",
+            "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+            "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+            "bioschemas": "https://discovery.biothings.io/view/bioschemas/"
+        },
+        "@graph": 
+        """
+
+        print("Postprocessing file to legit Bioschemas file format.")
+
+        enriched = ""
+        with open(outfile, 'r') as file:
+            for line in file:
+                enriched += line.strip() + "\n"
+        file.close()
+
+        postproc = postproc + enriched + "\n}"
+
+        with open(outfile, "w") as file:
+            file.write(postproc)
+        file.close()
+        
+
+
 
     # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
     # which have a release and version tag, are read. Then, only the latest version of the available profiles
