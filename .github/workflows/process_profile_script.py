@@ -66,23 +66,6 @@ class ProcPofiles:
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
 
-        # namespace_manager = NamespaceManager(Graph(), bind_namespaces="none")
-        # namespace_manager.reset()
-        # namespace_manager.bind("bioschemas", bioschemas)
-        # namespace_manager.bind("prof", prof)
-        # namespace_manager.bind("role", role)
-        # namespace_manager.bind("schema", schema)
-
-        # namespace_manager.bind("rdf", rdf)
-        # namespace_manager.bind("rdfs", rdfs)
-        # namespace_manager.bind("owl", owl)
-        # namespace_manager.bind("dcterms", dcterms)
-
-        # for n in namespace_manager.namespaces():
-        #     print(n)
-
-        # g.namespace_manager = namespace_manager
-
         g.parse(source=f, format="application/ld+json")
         
 
