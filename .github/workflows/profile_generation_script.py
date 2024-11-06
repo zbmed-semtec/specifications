@@ -592,7 +592,7 @@ for arg in args:
             # for g in range(data_length):
             # print(data, len(data))
             for g in data["@graph"]:
-                if not isinstance(g, int) and isinstance(g, str):
+                if not isinstance(g, int) and not isinstance(g, str):
                     if g["@type"] == "rdf:Property":
                         external_properties.append(g["@id"])
 
