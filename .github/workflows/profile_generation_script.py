@@ -598,7 +598,7 @@ for arg in args:
 
             # for g in range(data_length):
             for g in data["@graph"]:
-                if not isinstance(g, int):
+                if not isinstance(g, int) and not isinstance(g, str):
                     if g["@type"] == "rdfs:Class":
                         print(
                             Fore.BLUE
