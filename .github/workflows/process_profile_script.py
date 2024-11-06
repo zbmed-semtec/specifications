@@ -141,7 +141,7 @@ class ProcPofiles:
 
         jaydict.update({"$validation" : self.validation})
         
-        resDict = {"@context" : self.context, "@graph" : jaydict}
+        resDict = {"@context" : self.context, "@graph" : [jaydict]}
 
         jdump = json.dumps(resDict, indent=4)
 
