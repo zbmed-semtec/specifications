@@ -590,9 +590,9 @@ for arg in args:
             external_properties = []
             data_length = len(data)
             # for g in range(data_length):
-            print(data, len(data))
+            # print(data, len(data))
             for g in data["@graph"]:
-                if not isinstance(g, int):
+                if not isinstance(g, int) and isinstance(g, str):
                     if g["@type"] == "rdf:Property":
                         external_properties.append(g["@id"])
 
@@ -609,7 +609,7 @@ for arg in args:
                     # Dictionary of all external definitions
                     dict_definitions = dict()
 
-                    if "$validation" in g.keys():
+                    if "$validation" in g.keys() or True:
                         if "definitions" in g["$validation"].keys():
                             for d in g["$validation"]["definitions"]:
                                 dict_definitions[d] = g["$validation"]["definitions"][
