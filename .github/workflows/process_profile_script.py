@@ -37,8 +37,8 @@ class ProcPofiles:
 
     # Function to generate RDF for a specified profile using triples according to the Profile Ontology.
     def generate_rdf_for_profile(self, profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
-        context = self.getContextFromJSON(f)
-        validation = self.getValidationFromJSON(f)
+        self.getContextFromJSON(f)
+        self.getValidationFromJSON(f)
 
 
         # Defining namespaces
@@ -46,6 +46,16 @@ class ProcPofiles:
         prof = Namespace("http://www.w3.org/ns/dx/prof/")
         role = Namespace("http://www.w3.org/ns/dx/prof/role/")
         schema = Namespace("http://schema.org/")
+
+        contextDict = {}
+        contextDict = self.context
+
+        contextDict.update({"bioschemas" : "https://discovery.biothings.io/view/bioschemas/"})
+        contextDict.update({"prof" : "http://www.w3.org/ns/dx/prof/"})
+        contextDict.update({"role" : "http://www.w3.org/ns/dx/prof/role/"})
+        contextDict.update({"schema" : "http://schema.org/"})
+
+        self.context = contextDict
 
         rdf = Namespace("http://www.w3.org/1999/02/22-rdf-syntax-ns#")
         rdfs = Namespace("http://www.w3.org/2000/01/rdf-schema#")
@@ -79,10 +89,6 @@ class ProcPofiles:
         print("Parsing completed with size", len(g), "")
 
         print(g.subject_objects(), "\n\n#\n")
-
-        for i in g:
-            for j in i:
-                print(type(j), j)
 
         # Creating profile URI
         profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
@@ -129,7 +135,7 @@ class ProcPofiles:
         with open(outfile) as of:
             jay = json.load(of)
         
-        print(type(jay))
+        # print(type(jay))
         jaydict = {}
         jaydict = dict(ChainMap(*jay))
 
@@ -137,7 +143,7 @@ class ProcPofiles:
         
         resDict = {"@context" : self.context, "@graph" : jaydict}
 
-        jdump = json.dumps(resDict, indent=2)
+        jdump = json.dumps(resDict, indent=4)
 
         with open(outfile, "w") as f:
             f.write(jdump)
