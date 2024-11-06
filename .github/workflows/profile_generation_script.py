@@ -358,9 +358,10 @@ def generate_property(
 
     # Replace property definitions with their type
     for g in data["@graph"]:
-        if req_label == g["rdfs:label"]:
-            if not "bioschemas" in g["@id"].split(":")[0]:
-                req_label = g["@id"]
+        if g.get("rdfs:label", -1) != -1:
+            if req_label == g["rdfs:label"]:
+                if not "bioschemas" in g["@id"].split(":")[0]:
+                    req_label = g["@id"]
 
     new_p["property"] = req_label
     print(Fore.GREEN + Style.BRIGHT + f"Property : {req_label}" + Style.RESET_ALL)
