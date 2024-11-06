@@ -4,13 +4,43 @@ from rdflib.namespace import RDF, RDFS, DCTERMS, NamespaceManager
 import sys
 import rdflib
 import json
+from collections import ChainMap
 
 class ProcPofiles:
     def __init__(self, name):
         self.name = name
 
+    def getContextFromJSON(self, file):
+        jay = ""
+        with open(file) as f:
+            jay = json.load(f)
+        
+        for i in jay:
+            if i == "@context":
+                self.context = jay[i]
+        return self.context
+    
+    def getValidationFromJSON (self, file):
+        jay = ""
+        with open(file) as f:
+            jay = json.load(f)
+        
+        for i in jay:
+            if i == "@graph":
+                for j in jay[i]:
+                    for k in j:
+                        if k == "$validation":
+                            self.validation = j[k]
+            
+        return self.validation
+
+
     # Function to generate RDF for a specified profile using triples according to the Profile Ontology.
     def generate_rdf_for_profile(self, profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
+        context = self.getContextFromJSON(f)
+        validation = self.getValidationFromJSON(f)
+
+
         # Defining namespaces
         bioschemas = Namespace("https://discovery.biothings.io/view/bioschemas/")
         prof = Namespace("http://www.w3.org/ns/dx/prof/")
@@ -26,22 +56,22 @@ class ProcPofiles:
         # Loading JSON-LD from repository as graph using rdflib
         g = Graph()
 
-        namespace_manager = NamespaceManager(Graph(), bind_namespaces="none")
-        namespace_manager.reset()
-        namespace_manager.bind("bioschemas", bioschemas)
-        namespace_manager.bind("prof", prof)
-        namespace_manager.bind("role", role)
-        namespace_manager.bind("schema", schema)
+        # namespace_manager = NamespaceManager(Graph(), bind_namespaces="none")
+        # namespace_manager.reset()
+        # namespace_manager.bind("bioschemas", bioschemas)
+        # namespace_manager.bind("prof", prof)
+        # namespace_manager.bind("role", role)
+        # namespace_manager.bind("schema", schema)
 
-        namespace_manager.bind("rdf", rdf)
-        namespace_manager.bind("rdfs", rdfs)
-        namespace_manager.bind("owl", owl)
-        namespace_manager.bind("dcterms", dcterms)
+        # namespace_manager.bind("rdf", rdf)
+        # namespace_manager.bind("rdfs", rdfs)
+        # namespace_manager.bind("owl", owl)
+        # namespace_manager.bind("dcterms", dcterms)
 
-        for n in namespace_manager.namespaces():
-            print(n)
+        # for n in namespace_manager.namespaces():
+        #     print(n)
 
-        g.namespace_manager = namespace_manager
+        # g.namespace_manager = namespace_manager
 
         g.parse(source=f, format="application/ld+json")
         
@@ -91,9 +121,27 @@ class ProcPofiles:
         # outfile = outputfilename+"."+filetype
 
         outfile = outputfilename
-        g.serialize(destination=outfile, format="json-ld", auto_compact=True)
+        g.serialize(destination=outfile, format="json-ld")
         print("Writing result to", outfile)
         g.close()
+
+        jay = ""
+        with open(outfile) as of:
+            jay = json.load(of)
+        
+        print(type(jay))
+        jaydict = {}
+        jaydict = dict(ChainMap(*jay))
+
+        jaydict.update({"$validation" : self.validation})
+        
+        resDict = {"@context" : self.context, "@graph" : jaydict}
+
+        jdump = json.dumps(resDict, indent=2)
+
+        with open(outfile, "w") as f:
+            f.write(jdump)
+
 
 
     # Process profile information from the GitHub repository of BioSchemas. All profiles in JSON-LD format
@@ -135,4 +183,8 @@ for arg in args:
             
         # abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
         print("Running processProfiles() for : ", profile_name, "with file", arg)
+        
+        
         proc.processProfiles(arg, profile_name)
+
+        # proc.preserveJSON(arg)
