@@ -74,9 +74,9 @@ jobs:
           git checkout -b `date +%Y_%m_%d-%H_%M`
           cd ..
 
-      - name: Exectute Enrichment by Profile Ontology script
-        run: |
-          python ./.github/workflows/process_profile_script.py ${{steps.changed-files.outputs.all_changed_files}}  
+      #- name: Exectute Enrichment by Profile Ontology script
+      #  run: |
+      #    python ./.github/workflows/process_profile_script.py ${{steps.changed-files.outputs.all_changed_files}}  
 
       - name: Execute the config files update Python Script
         run: |
