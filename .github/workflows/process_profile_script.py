@@ -20,6 +20,16 @@ class ProcPofiles:
             if i == "@context":
                 self.context = jay[i]
         return self.context
+    
+    def getGraphFromJSON(self, file):
+        jay = ""
+        with open(file) as f:
+            jay = json.load(f)
+
+        for i in jay:
+            if i == "@graph":
+                self.graph = jay[i]
+        return self.graph
 
     def getValidationFromJSON(self, file):
         jay = ""
@@ -111,18 +121,15 @@ class ProcPofiles:
         # outfile = outputfilename+"."+filetype
 
         outfile = outputfilename
-        g.serialize(destination=outfile, format="json-ld")
+        g.serialize(destination=outfile, format="json-ld", auto_compact=True)
         print("Writing result to", outfile)
         g.close()
 
-        jay = ""
-        with open(outfile) as of:
-            jay = json.load(of)
+        jay = self.getGraphFromJSON(outfile)
 
         # print(type(jay))
         jaydict = {}
         jaydict = dict(ChainMap(*jay))
-
         jaydict.update({"$validation": self.validation})
 
         resDict = {"@context": self.context, "@graph": [jaydict]}
