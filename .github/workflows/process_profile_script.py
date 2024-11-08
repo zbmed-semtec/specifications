@@ -51,7 +51,9 @@ class ProcPofiles:
     # Function to generate RDF for a specified profile using triples according to the Profile Ontology.
 
     def generate_rdf_for_profile(self, profile_name, label, comment, publisher, is_profile_of, webpage_url, f, outputfilename, filetype):
+        print ("Saving current @context attribute from", f)
         self.getContextFromJSON(f)
+        print("Saving current $validation triples in @graph attribute from", f)
         self.getValidationFromJSON(f)
 
         # Defining namespaces
@@ -84,6 +86,8 @@ class ProcPofiles:
         g.parse(source=f, format="application/ld+json")
 
         print("Parsing completed with size", len(g), "")
+
+        print("Constructing enrichment profiles to be added to the graph.")
 
         # Creating profile URI
         profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
@@ -121,20 +125,27 @@ class ProcPofiles:
         # save the graph with additional profile triples
         # outfile = outputfilename+"."+filetype
 
+
+        print("Writing intermediate results to", outfile)
         outfile = outputfilename
         g.serialize(destination=outfile, format="json-ld", auto_compact=True)
         print("Writing result to", outfile)
         g.close()
 
+
+        print("Loading intermediate results again from", outfile)
         jay = self.getGraphFromJSON(outfile)
 
         # print(type(jay))
         jaydict = {}
         jaydict = dict(ChainMap(*jay))
+        print("Adding $validation triples to @graph attribute.")
         jaydict.update({"$validation": self.validation})
 
+        print("Adding @context attribute to @graph")
         resDict = {"@context": self.context, "@graph": [jaydict]}
 
+        print("Dumping result json to", outfile)
         jdump = json.dumps(resDict, indent=4)
 
         with open(outfile, "w") as f:
