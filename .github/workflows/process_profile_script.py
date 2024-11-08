@@ -126,8 +126,8 @@ class ProcPofiles:
         # outfile = outputfilename+"."+filetype
 
 
-        print("Writing intermediate results to", outfile)
         outfile = outputfilename
+        print("Writing intermediate results to", outfile)
         g.serialize(destination=outfile, format="json-ld", auto_compact=True)
         print("Writing result to", outfile)
         g.close()
