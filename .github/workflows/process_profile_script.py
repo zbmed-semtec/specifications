@@ -11,6 +11,7 @@ class ProcPofiles:
     def __init__(self, name):
         self.name = name
 
+    # saves @context attribute from JSON-LD graph in self.context
     def getContextFromJSON(self, file):
         jay = ""
         with open(file) as f:
@@ -20,7 +21,8 @@ class ProcPofiles:
             if i == "@context":
                 self.context = jay[i]
         return self.context
-    
+
+    # saves @graph attribute from JSON-LD graph in self.graph
     def getGraphFromJSON(self, file):
         jay = ""
         with open(file) as f:
@@ -31,6 +33,7 @@ class ProcPofiles:
                 self.graph = jay[i]
         return self.graph
 
+    # saves $validation from inside the @graph attribute of the JSON-LD graph in self.validation
     def getValidationFromJSON(self, file):
         jay = ""
         with open(file) as f:
@@ -182,5 +185,3 @@ for arg in args:
               profile_name, "with file", arg)
 
         proc.processProfiles(arg, profile_name)
-
-        # proc.preserveJSON(arg)
