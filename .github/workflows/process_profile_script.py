@@ -85,8 +85,6 @@ class ProcPofiles:
 
         print("Parsing completed with size", len(g), "")
 
-        print(g.subject_objects(), "\n\n#\n")
-
         # Creating profile URI
         profile_uri = URIRef(str(bioschemas) + profile_name.capitalize() + "/")
 
