@@ -62,7 +62,7 @@ class ProcPofiles:
 
         # Defining namespaces
         bioschemas = Namespace(
-            "https://discovery.biothings.io/view/bioschemas/")
+            "https://bioschemas.org/profiles/")
         prof = Namespace("http://www.w3.org/ns/dx/prof/")
         role = Namespace("http://www.w3.org/ns/dx/prof/role/")
         schema = Namespace("http://schema.org/")
@@ -71,7 +71,7 @@ class ProcPofiles:
         contextDict = self.context
 
         contextDict.update(
-            {"bioschemas": "https://discovery.biothings.io/view/bioschemas/"})
+            {"bioschemas": "https://bioschemas.org/profiles/"})
         contextDict.update({"prof": "http://www.w3.org/ns/dx/prof/"})
         contextDict.update({"role": "http://www.w3.org/ns/dx/prof/role/"})
         contextDict.update({"schema": "http://schema.org/"})
