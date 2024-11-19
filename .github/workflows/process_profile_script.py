@@ -8,6 +8,10 @@ from collections import ChainMap
 
 
 class ProcPofiles:
+    validation = ""
+    name = ""
+    context = ""
+
     def __init__(self, name):
         self.name = name
 
