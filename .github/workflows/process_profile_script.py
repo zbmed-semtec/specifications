@@ -193,7 +193,7 @@ for arg in args:
 
         profile_name = arg.split("/")[-1].split(".json")[0].split("_")[0]
 
-        if not "type" in profile_name:
+        if not "type" in arg:
             # abspath = "https://raw.githubusercontent.com/zbmed-semtec/specifications/master/" + arg
             print("Running processProfiles() for : ",
                 profile_name, "with file", arg)
