@@ -200,3 +200,5 @@ for arg in args:
             proc.processProfiles(arg, profile_name)
         else:
             print("Not processing", arg, "because 'type' in path name!")
+    else:
+        print("No JSON-LD file identified. Skipping process...")
