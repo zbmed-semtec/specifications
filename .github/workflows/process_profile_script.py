@@ -134,13 +134,12 @@ class ProcPofiles:
         print("Writing intermediate results to", outfile)
         g.serialize(destination=outfile, format="json-ld", auto_compact=True)
         print("Writing result to", outfile)
-        turtlefile = outfile[-5:] + ".ttl"
 
         # Writing graph serialization in turtle format as additional files with same
         # name but with different file ending for filetype ttl.
-
+        turtlefile = outfile[:-5] + ".ttl"
         print("Writing turtle file to", turtlefile)
-        g.serialize(destination=outfile, format="turtle")
+        g.serialize(destination=turtlefile, format="turtle")
         g.close()
 
 
