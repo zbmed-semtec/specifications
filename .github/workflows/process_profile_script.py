@@ -19,7 +19,10 @@ class ProcPofiles:
     def getContextFromJSON(self, file):
         jay = ""
         with open(file) as f:
-            jay = json.load(f)
+            try:
+                jay = json.load(f)
+            except Exception as error:
+                print("### ERROR in parsing file", file, "with error", error)
 
         for i in jay:
             if i == "@context":
